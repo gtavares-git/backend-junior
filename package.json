@@ -1,0 +1,24 @@
+{
+  "name": "backend_jr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtavares-git/backend-junior.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gtavares-git/backend-junior/issues"
+  },
+  "homepage": "https://github.com/gtavares-git/backend-junior#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
