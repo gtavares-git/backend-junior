@@ -1,25 +1,28 @@
-# Task API - Backend Junior
+# Task API
 
-API REST simples para gerenciamento de tarefas, desenvolvida com Node.js e Express.
+API REST para gerenciamento de tarefas, desenvolvida em Node.js seguindo boas práticas de backend.
+
+## 🎯 Objetivo
+Projeto criado com foco em aprendizado prático de desenvolvimento backend, aplicando conceitos como CRUD, rotas REST, status HTTP e organização de código.
 
 ## 🚀 Tecnologias
 - Node.js
 - Express
 - JavaScript
 
-## 📌 Funcionalidades
-- Criar tarefas
+## 📦 Funcionalidades
+- Criar uma tarefa
 - Listar tarefas
-- Atualizar tarefas
-- Deletar tarefas
+- Atualizar uma tarefa
+- Deletar uma tarefa
 
-## 📡 Rotas
-- GET /tasks
-- POST /tasks
-- PUT /tasks/:id
-- DELETE /tasks/:id
+## 📡 Rotas da API
 
-## ▶️ Como rodar o projeto
-```bash
-npm install
-node src/app.js
+### Criar tarefa
+`POST /tasks`
+
+Body:
+```json
+{
+  "title": "Minha tarefa"
+}
