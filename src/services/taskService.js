@@ -5,7 +5,6 @@ const dataPath = path.join(__dirname, "../data/tasks.json");
 
 function readTasksFromFile() {
   try {
-    // Se o arquivo não existir, cria com []
     if (!fs.existsSync(dataPath)) {
       fs.writeFileSync(dataPath, JSON.stringify([]));
       return [];
@@ -13,17 +12,19 @@ function readTasksFromFile() {
 
     const data = fs.readFileSync(dataPath, "utf-8");
 
-    // Se estiver vazio, retorna []
     if (!data) {
+      fs.writeFileSync(dataPath, JSON.stringify([]));
       return [];
     }
 
     return JSON.parse(data);
   } catch (error) {
-    console.error("Erro ao ler tasks.json:", error);
+    console.error("JSON inválido detectado. Recriando arquivo...", error);
+    fs.writeFileSync(dataPath, JSON.stringify([]));
     return [];
   }
 }
+
 
 function writeTasksToFile(tasks) {
   fs.writeFileSync(dataPath, JSON.stringify(tasks, null, 2));
