@@ -4,8 +4,25 @@ const path = require("path");
 const dataPath = path.join(__dirname, "../data/tasks.json");
 
 function readTasksFromFile() {
-  const data = fs.readFileSync(dataPath, "utf-8");
-  return JSON.parse(data);
+  try {
+    // Se o arquivo não existir, cria com []
+    if (!fs.existsSync(dataPath)) {
+      fs.writeFileSync(dataPath, JSON.stringify([]));
+      return [];
+    }
+
+    const data = fs.readFileSync(dataPath, "utf-8");
+
+    // Se estiver vazio, retorna []
+    if (!data) {
+      return [];
+    }
+
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("Erro ao ler tasks.json:", error);
+    return [];
+  }
 }
 
 function writeTasksToFile(tasks) {
