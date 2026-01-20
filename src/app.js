@@ -1,16 +1,15 @@
 const express = require("express");
+const app = express();
+
 const taskRoutes = require("./routes/tasks");
 
-const app = express();
+// middleware para JSON
 app.use(express.json());
 
-// Rotas
-app.use("/tasks", taskRoutes);
+// rotas versionadas
+app.use("/api/v1/tasks", taskRoutes);
 
-app.get("/", (req, res) => {
-  res.json({ message: "API de tarefas funcionando!" });
-});
-
-app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

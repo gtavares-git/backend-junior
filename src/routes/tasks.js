@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const validateCreateTask = require("../middlewares/validateCreateTask");
+const validateTaskUpdate = require("../middlewares/validateTaskUpdate");
+
+
 
 const {
   getAllTasks,
@@ -19,47 +23,33 @@ router.get("/", (req, res) => {
 });
 
 // POST /tasks
-router.post("/", (req, res) => {
-  if (!req.body) {
-    return res.status(400).json({
-      success: false,
-      error: "Request body is required",
-    });
-  }
-
+router.post("/", validateCreateTask, (req, res) => {
   const { title } = req.body;
 
-  if (typeof title !== "string" || title.trim() === "") {
-    return res.status(400).json({
-      success: false,
-      error: "Title is required and must be a non-empty string",
-    });
-  }
-
-  const newTask = createTask({ title });
+  const task = createTask(title);
 
   res.status(201).json({
     success: true,
-    data: newTask,
+    data: task,
   });
 });
 
+
 // PUT /tasks/:id
-router.put("/:id", (req, res) => {
+router.put("/:id", validateTaskUpdate, (req, res) => {
   const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
+
   const task = updateTask(id, req.body);
 
   if (!task) {
-    return res.status(404).json({
-      success: false,
-      error: "Tarefa não encontrada",
-    });
+    return res.status(404).json({ error: "Tarefa não encontrada" });
   }
 
-  res.json({
-    success: true,
-    data: task,
-  });
+  res.json(task);
 });
 
 // DELETE /tasks/:id

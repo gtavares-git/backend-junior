@@ -3,6 +3,8 @@ const path = require("path");
 
 const dataPath = path.join(__dirname, "../data/tasks.json");
 
+createdAt: new Date().toISOString()
+
 function readTasksFromFile() {
   try {
     if (!fs.existsSync(dataPath)) {
