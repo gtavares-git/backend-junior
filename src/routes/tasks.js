@@ -1,70 +1,36 @@
 const express = require("express");
 const router = express.Router();
+
 const validateCreateTask = require("../middlewares/validateCreateTask");
 const validateTaskUpdate = require("../middlewares/validateTaskUpdate");
-
-
+const validateTaskId = require("../middlewares/validateTaskId");
 
 const {
-  getAllTasks,
-  createTask,
-  updateTask,
-  deleteTask,
-} = require("../services/taskService");
+  getTasks,
+  createTaskController,
+  updateTaskController,
+  deleteTaskController,
+} = require("../controllers/taskController");
 
 // GET /tasks
-router.get("/", (req, res) => {
-  const tasks = getAllTasks();
-
-  res.json({
-    success: true,
-    data: tasks,
-  });
-});
+router.get("/", getTasks);
 
 // POST /tasks
-router.post("/", validateCreateTask, (req, res) => {
-  const { title } = req.body;
-
-  const task = createTask(title);
-
-  res.status(201).json({
-    success: true,
-    data: task,
-  });
-});
-
+router.post("/", validateCreateTask, createTaskController);
 
 // PUT /tasks/:id
-router.put("/:id", validateTaskUpdate, (req, res) => {
-  const id = Number(req.params.id);
-
-  if (isNaN(id)) {
-    return res.status(400).json({ error: "ID inválido" });
-  }
-
-  const task = updateTask(id, req.body);
-
-  if (!task) {
-    return res.status(404).json({ error: "Tarefa não encontrada" });
-  }
-
-  res.json(task);
-});
+router.put(
+  "/:id",
+  validateTaskId,
+  validateTaskUpdate,
+  updateTaskController
+);
 
 // DELETE /tasks/:id
-router.delete("/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const deleted = deleteTask(id);
-
-  if (!deleted) {
-    return res.status(404).json({
-      success: false,
-      error: "Tarefa não encontrada",
-    });
-  }
-
-  res.status(204).send();
-});
+router.delete(
+  "/:id",
+  validateTaskId,
+  deleteTaskController
+);
 
 module.exports = router;
